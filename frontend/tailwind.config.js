@@ -15,6 +15,26 @@ export default {
         inter: ['Inter', 'sans-serif'],
         roboto: ['Roboto', 'sans-serif'],
       },
+      backgroundImage: {
+        'hero-pattern': "url('./src/assets/herobistest.svg')",
+        'line-pattern': "url('./src/assets/surfDrawLine.svg')",
+      },
+      backgroundSize: {
+        '50%': '50%',
+      },
+      gridTemplateRows: {
+        9: 'repeat(9, minmax(0, 1fr))',
+      },
+      gridRowStart: {
+        8: '8',
+        9: '9',
+        10: '10',
+      },
+      gridRowEnd: {
+        8: '8',
+        9: '9',
+        10: '10',
+      },
     },
   },
   plugins: [],
