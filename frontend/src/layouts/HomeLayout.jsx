@@ -4,11 +4,11 @@ import { Outlet } from 'react-router-dom';
 import Navbar from '../partials/Navbar';
 import Footer from '../partials/Footer';
 
-function MainLayout() {
+function HomeLayout() {
   return (
-    <div className="bg-dark-blue bg-no-repeat flex flex-col h-full font-inter">
+    <div className="bg-hero-pattern bg-no-repeat bg-cover flex h-full flex-col font-inter">
       <Navbar />
-      <div className="grow">
+      <div className="grow ">
         <Outlet />
       </div>
       <Footer />
@@ -16,4 +16,4 @@ function MainLayout() {
   );
 }
 
-export default MainLayout;
+export default HomeLayout;
