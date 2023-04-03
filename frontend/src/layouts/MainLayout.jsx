@@ -6,9 +6,9 @@ import Footer from '../partials/Footer';
 
 function MainLayout() {
   return (
-    <div className="bg-dark-blue bg-no-repeat flex flex-col h-full font-inter">
+    <div className="bg-dark-blue bg-no-repeat flex flex-col h-full font-inter grow">
       <Navbar />
-      <div className="grow">
+      <div className="grow bg-dark-blue">
         <Outlet />
       </div>
       <Footer />

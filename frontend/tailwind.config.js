@@ -10,6 +10,7 @@ export default {
         yellow: '#D9B589',
         'medium-blue': '#6B98BF',
         'light-blue': '#D5EDF2',
+        black: '#282828',
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
@@ -18,6 +19,7 @@ export default {
       backgroundImage: {
         'hero-pattern': "url('./src/assets/herobistest.svg')",
         'line-pattern': "url('./src/assets/surfDrawLine.svg')",
+        'blob-pattern': "url('./src/assets/blob-pattern.svg')",
       },
       backgroundSize: {
         '50%': '50%',
