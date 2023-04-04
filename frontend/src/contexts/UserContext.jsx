@@ -13,7 +13,8 @@ export const useUserContext = () => useContext(UserContext);
 export function UserContextProvider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userId, setUserId] = useState([]);
+  const [userId, setUserId] = useState(localStorage.getItem('userId') || null);
+  const [cartId, setCartId] = useState(localStorage.getItem('cartId') || null);
 
   const values = useMemo(
     () => ({
@@ -23,8 +24,19 @@ export function UserContextProvider({ children }) {
       setPassword,
       userId,
       setUserId,
+      cartId,
+      setCartId,
     }),
-    [email, setEmail, password, setPassword, userId, setUserId]
+    [
+      email,
+      setEmail,
+      password,
+      setPassword,
+      userId,
+      setUserId,
+      cartId,
+      setCartId,
+    ]
   );
 
   return <UserContext.Provider value={values}>{children}</UserContext.Provider>;

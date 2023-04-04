@@ -19,10 +19,9 @@ function SignIn({ closePopUp }) {
       try {
         const res = await instance.post('/api/login', data, response);
         setResponse(res.data.userId);
-        localStorage.setItem('userId', JSON.stringify(res.data.userId));
-        console.log(response);
-        setUserId(res.data.userId);
-        console.log(userId);
+        setUserId(
+          localStorage.setItem('userId', JSON.stringify(res.data.userId))
+        );
         closePopUp();
       } catch (error) {
         console.error(error);

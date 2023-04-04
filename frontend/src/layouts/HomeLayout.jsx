@@ -7,7 +7,7 @@ import Footer from '../partials/Footer';
 function HomeLayout() {
   return (
     <div className="bg-hero-pattern bg-no-repeat bg-cover flex h-full flex-col font-inter">
-      <Navbar />
+      <Navbar bg />
       <div className="grow ">
         <Outlet />
       </div>

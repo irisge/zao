@@ -1,40 +1,65 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { useNavigate } from 'react-router-dom';
 import SignIn from './SignIn';
 
 import grille from '../assets/view-grid.svg';
 import panier from '../assets/shopping-bag-wo-circle.png';
-import { useNavigate } from 'react-router-dom';
 import instance from '../services/serviceApi';
+import { useUserContext } from '../contexts/UserContext';
 
 function Card({ produits }) {
   const [signInPopUpOn, setSignInPopUpOn] = useState(false);
+  const [productData, setProductData] = useState([]);
+
+  const { cartId, setCartId, userId } = useUserContext();
 
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    if (!localStorage.getItem('userId')) {
+  const handleLoginAndBag = async (e) => {
+    if (!userId) {
       setSignInPopUpOn(true);
     } else {
       try {
-        // await instance.post('/api/panier', {
-        //   userId: localStorage.getItem('userId'),
-        // });
+        // on vérifie s'il existe un panier
+        if (!cartId) {
+          const response = await instance.post('/api/panier', {
+            userId: localStorage.getItem('userId'),
+          });
+          setCartId(
+            localStorage.setItem(
+              'cartId',
+              JSON.stringify(response.data.insertId)
+            )
+          );
+        }
+        // on vérifie si le panier contient déjà le produit
+        // on ajoute ce produit
 
-        const res = await instance.get(`api/produits/${e.target.name}`);
-        const productId = res.data.id;
-        await instance.post(`api/panier/perso`, {
-          cartId: 1,
-          productId,
+        const res = await instance.get(`/api/articles-paniers/${cartId}`);
+
+        if (
+          ![res.data].filter((prod) => prod.product_id == e.target.name).length
+        ) {
+          await instance.post('/api/articles-paniers', {
+            cartId,
+            productId: e.target.name,
+            quantity: +1,
+          });
+        }
+        await instance.put(`/api/articles-paniers/${cartId}`, {
+          productId: e.target.name,
           quantity: +1,
         });
       } catch (e) {
         console.log(e);
       }
-      // ajout au panier
     }
   };
+
+  console.log(cartId);
+  console.log(userId);
 
   const closePopUp = () => {
     setSignInPopUpOn(false);
@@ -49,11 +74,14 @@ function Card({ produits }) {
         >
           <div className="flex w-full justify-between">
             <img src={grille} alt="quatre carrés formant une grille" />
-            <button type="button" onClick={handleLogin}>
+            <button type="button" onClick={handleLoginAndBag}>
               <img src={panier} alt="panier de shopping" name={p.id} />
             </button>
           </div>
-          <img src={p.picture} alt={p.title} />
+          <img
+            src={`${import.meta.env.VITE_BACKEND_URL}/${p.picture}`}
+            alt={p.title}
+          />
           <p className="font-regular text-3xl text-dark-blue">{p.title}</p>
           <p className="font-bold text-3xl text-dark-blue">{p.price}€</p>
         </div>
