@@ -1,15 +1,18 @@
 import React from 'react';
 
-import line from '../assets/surfDrawLine.svg';
+// import line from '../assets/surfDrawLine.svg';
 import arrow from '../assets/arrow-blue-right.svg';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
+  const navigate = useNavigate();
+
   return (
     <div className="grow grid grid-rows-4 lg:grid-rows-3 h-full w-full">
       <div className="row-start-1 row-span-2 lg:row-span-1 flex flex-col justify-evenly items-center justify-self-center w-full  max-w-[300px] lg:min-w-md font-extrabold text-3xl">
         <button
           type="button"
-          onClick=""
+          onClick={navigate('/shop')}
           className="bg-light-blue flex items-center justify-between w-full max-w-sm rounded-3xl px-8 text-dark-blue"
         >
           S'ÉQUIPER
@@ -17,7 +20,7 @@ function Home() {
         </button>
         <button
           type="button"
-          onClick=""
+          onClick={navigate('/shop')}
           className="bg-light-blue flex items-center justify-between w-full max-w-sm rounded-3xl px-8 text-dark-blue"
         >
           SE FORMER

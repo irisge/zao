@@ -16,7 +16,7 @@ const login = async (req, res, next) => {
 
     const passwordVerfication = await verifyPassword(
       user.password,
-      req.body.password,
+      req.body.password
     );
 
     if (!passwordVerfication) {
@@ -29,8 +29,10 @@ const login = async (req, res, next) => {
 
     // Warning: secure should be true for production
 
-    res.cookie('aabs', token, { httpOnly: true, secure: false });
-    res.sendStatus(200).json({ userId: user.id });
+    res
+      .cookie('aabs', token, { httpOnly: true, secure: false })
+      .status(200)
+      .json({ userId: user.id });
   } catch (e) {
     next(e);
   }

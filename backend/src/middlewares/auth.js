@@ -1,4 +1,4 @@
-const { decodeJWT } = require('../helper/jwt.helper.js');
+const { decodeJWT } = require('../helpers/jwt.helper');
 
 const authorization = (req, res, next) => {
   try {
