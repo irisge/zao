@@ -1,16 +1,13 @@
 const express = require('express');
 
 const {
-  getAll,
-  getOne,
-  createOne,
+  getAllFullCarts,
+  getOneFullCart,
 } = require('../controllers/panier.controller');
 
 const router = express.Router();
 
-router.get('/', getAll);
-router.get('/:id', getOne);
-
-router.post('/', createOne);
+router.get('/', getAllFullCarts);
+router.get('/:id', getOneFullCart);
 
 module.exports = router;

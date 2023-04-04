@@ -2,7 +2,6 @@ const { findAllProducts, findOneProduct } = require('../models/produit.model');
 
 const getAll = async (req, res) => {
   try {
-    console.log(req.body);
     const produits = await findAllProducts();
     res.send(produits);
   } catch (e) {

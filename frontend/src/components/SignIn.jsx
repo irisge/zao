@@ -22,9 +22,6 @@ function SignIn({ closePopUp }) {
         setUserId(
           localStorage.setItem('userId', JSON.stringify(res.data.userId))
         );
-        console.log(response);
-        setUserId(res.data.userId);
-        console.log(userId);
         closePopUp();
       } catch (error) {
         console.error(error);

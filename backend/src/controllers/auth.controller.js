@@ -6,8 +6,7 @@ const { validateAuth } = require('../validators/authValidator');
 const login = async (req, res, next) => {
   try {
     const errors = validateAuth(req.body);
-    console.log(errors);
-
+    
     if (errors) throw new Error();
 
     const [user] = await findByEmail(req.body.email);

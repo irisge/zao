@@ -1,78 +1,70 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import SignIn from './SignIn';
-
-import grille from '../assets/view-grid.svg';
-import panier from '../assets/shopping-bag-wo-circle.png';
-import instance from '../services/serviceApi';
 import { useUserContext } from '../contexts/UserContext';
 
-function Card({ produits }) {
-  const [signInPopUpOn, setSignInPopUpOn] = useState(false);
+import fleche from '../assets/arrow-light-blue-right.svg';
 
+function ShoppingCardList({ produits, handleIncrease, handleDecrease }) {
   const { cartId, setCartId, userId } = useUserContext();
 
-  const handleLogin = async (e) => {
-    if (!userId) {
-      setSignInPopUpOn(true);
-    } else {
-      try {
-        const response = await instance.post('/api/panier', {
-          userId: localStorage.getItem('userId'),
-        });
-        console.log(response.data.insertId);
-        setCartId(
-          localStorage.setItem('cartId', JSON.stringify(response.data.insertId))
-        );
-
-        const res = await instance.get(`api/produits/${e.target.name}`);
-        const productId = res.data.id;
-        await instance.post(`api/panier/perso`, {
-          cartId: 1,
-          productId,
-          quantity: +1,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-      // ajout au panier
-    }
-  };
-
-  console.log(cartId);
-  console.log(userId);
-
-  const closePopUp = () => {
-    setSignInPopUpOn(false);
-  };
+  console.log(produits);
 
   return (
-    <div className="flex flex-col items-center justify-between w-full h-full -translate-y-10 lg:-translate-y-1 gap-8 lg:gap-y-8 lg:grid lg:grid-cols-3 py-8">
+    <div className="bg-light-blue rounded-3xl place-self-center flex flex-col w-9/12 lg:w-11/12 items-center justify-between px-4 py-4 text-center gap-4 -translate-y-3.5">
       {produits.map((p) => (
-        <div
-          className="bg-light-blue rounded-3xl w-[300px] h-[350px] place-self-center flex flex-col items-center justify-between px-4 py-4 text-center"
-          key={p.id}
-        >
-          <div className="flex w-full justify-between">
-            <img src={grille} alt="quatre carrés formant une grille" />
-            <button type="button" onClick={handleLogin}>
-              <img src={panier} alt="panier de shopping" name={p.id} />
-            </button>
+        <div className="flex flex-row justify-between w-full " key={p.id}>
+          <img
+            src={`${import.meta.env.VITE_BACKEND_URL}/${p.picture}`}
+            alt={p.title}
+            className=" w-[60px] lg:w-[100px]"
+          />
+          <div className="flex flex-col text-left pl-4 w-full justify-between">
+            <div className="flex w-full justify-between items-start">
+              {' '}
+              <p className="font-roboto font-regular text-xl lg:text-3xl text-dark-blue">
+                {p.title.toUpperCase()}
+              </p>
+              <p className="font-semibold text-2xl lg:text-3xl text-dark-blue">
+                {p.total_price}€
+              </p>
+            </div>
+            <div className="flex w-3/5 max-w-[100px] justify-evenly bg-dark-blue rounded-full text-white font-inter font-regular text-base py-2">
+              <button
+                type="button"
+                onClick={handleDecrease}
+                name={p.product_id}
+                className="font-extrabold text-base"
+              >
+                -
+              </button>
+              {p.quantity}
+              <button
+                type="button"
+                name={p.product_id}
+                onClick={handleIncrease}
+              >
+                +
+              </button>
+            </div>
           </div>
-          <img src={p.picture} alt={p.title} />
-          <p className="font-regular text-3xl text-dark-blue">{p.title}</p>
-          <p className="font-bold text-3xl text-dark-blue">{p.price}€</p>
         </div>
       ))}
-      {signInPopUpOn && (
-        <SignIn signInPopUpOn={signInPopUpOn} closePopUp={closePopUp} />
-      )}
+      <div className="flex w-full justify-between font-extrabold text-2xl lg:text-3xl text-orange">
+        <h2 className="">TOTAL</h2>
+        <p>{produits.reduce((acc, curr) => acc + curr.total_price, 0)}€</p>
+      </div>
+      <button
+        type="button"
+        className="bg-orange flex w-full items-center text-dark-blue font-semibold text-xl lg:text-3xl rounded-full py-2 px-3 flex-nowrap whitespace-nowrap"
+      >
+        Passer la commande <img src={fleche} alt="fleche" />
+      </button>
     </div>
   );
 }
 
-Card.propTypes = {
+ShoppingCardList.propTypes = {
   produits: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -84,4 +76,4 @@ Card.propTypes = {
   ).isRequired,
 };
 
-export default Card;
+export default ShoppingCardList;

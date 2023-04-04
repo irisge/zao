@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import menu from '../assets/menu.svg';
 import cart from '../assets/shopping-bag.svg';
 
-function Navbar() {
+function Navbar({ bg }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const getActiveLinkStyle = ({ isActive }) => {
     if (isActive) {
@@ -17,7 +17,7 @@ function Navbar() {
     <nav className="flex justify-between items-center z-30">
       <a
         href="/"
-        className="text-dark-brown font-extrabold text-2xl lg:text-[40px] p-8"
+        className={`${bg ? 'text-dark-brown font-extrabold text-2xl lg:text-[40px] p-8' : 'text-yellow font-extrabold text-2xl lg:text-[40px] p-8'}`}
       >
         ZAO SURF SCHOOL
       </a>
@@ -38,15 +38,15 @@ function Navbar() {
         <NavLink
           style={getActiveLinkStyle}
           to="/"
-          onClick={() => setMobileNavOpen(!mobileNavOpen)}
-          className="font-extrabold text-yellow text-2xl py-8 lg:py-0"
+          onClick={() => setMobileNavOpen(false)}
+          className="font-extrabold text-yellow text-3xl py-8 lg:py-0"
         >
           Accueil
         </NavLink>
         <NavLink
           style={getActiveLinkStyle}
           to="/shop"
-          onClick={() => setMobileNavOpen(!mobileNavOpen)}
+          onClick={() => setMobileNavOpen(false)}
           className="font-extrabold text-yellow text-2xl lg:text-3xl py-8 lg:py-0"
         >
           Le Shop
@@ -54,7 +54,7 @@ function Navbar() {
         <NavLink
           style={getActiveLinkStyle}
           to="/ecole"
-          onClick={() => setMobileNavOpen(!mobileNavOpen)}
+          onClick={() => setMobileNavOpen(false)}
           className="font-extrabold text-yellow text-2xl lg:text-3xl py-8 lg:py-0"
         >
           L'École
@@ -62,7 +62,7 @@ function Navbar() {
         <NavLink
           style={getActiveLinkStyle}
           to="/panier"
-          onClick={() => setMobileNavOpen(!mobileNavOpen)}
+          onClick={() => setMobileNavOpen(false)}
           className="font-extrabold text-yellow text-2xl lg:hidden py-8 lg:py-0"
         >
           Panier

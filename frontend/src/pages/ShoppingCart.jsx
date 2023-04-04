@@ -1,17 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 
-import blob from '../assets/blob-pattern.svg';
+import ShoppingCartList from '../components/ShoppingCartList';
 
 import instance from '../services/serviceApi';
-import { useUserContext } from '../contexts/UserContext';
-function ShoppingCart({ nav }) {
-  const { userId, cartId } = useUserContext();
-  useEffect(() => {
-    instance.get(`/api/panier/${cartId}`).then((res) => console.log(res.data));
-  }, []);
 
-  console.log(userId);
+import blob from '../assets/blob-pattern.svg';
+import { useUserContext } from '../contexts/UserContext';
+
+function ShoppingCart({ nav }) {
+  const [produits, setProduits] = useState([]);
+  const { cartId } = useUserContext();
+  console.log(cartId);
+  const handleIncrease = async (e) => {
+    try {
+      await instance.put(`/api/articles-paniers/${cartId}`, {
+        productId: e.target.name,
+        quantity: +1,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleDecrease = async (e) => {
+    try {
+      await instance.put(`/api/articles-paniers/${cartId}`, {
+        productId: e.target.name,
+        quantity: -1,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    instance
+      .get(`/api/commande/${cartId}`)
+      .then((res) => setProduits(res.data));
+  }, []);
 
   return (
     <div className="flex flex-col w-full h-full grow relative">
@@ -23,7 +48,11 @@ function ShoppingCart({ nav }) {
       <h2 className="z-10 px-16 py-4 font-inter font-extrabold text-3xl text-black">
         {`Accueil / ${nav}`}
       </h2>
-      <ShoppingCart />
+      <ShoppingCartList
+        produits={produits}
+        handleDecrease={handleDecrease}
+        handleIncrease={handleIncrease}
+      />
     </div>
   );
 }

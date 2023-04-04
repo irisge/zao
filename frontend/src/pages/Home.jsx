@@ -12,7 +12,7 @@ function Home() {
       <div className="row-start-1 row-span-2 lg:row-span-1 flex flex-col justify-evenly items-center justify-self-center w-full  max-w-[300px] lg:min-w-md font-extrabold text-3xl">
         <button
           type="button"
-          onClick={navigate('/shop')}
+          onClick={() => navigate('/shop')}
           className="bg-light-blue flex items-center justify-between w-full max-w-sm rounded-3xl px-8 text-dark-blue"
         >
           S'ÉQUIPER
@@ -20,7 +20,7 @@ function Home() {
         </button>
         <button
           type="button"
-          onClick={navigate('/shop')}
+          onClick={() => navigate('/shop')}
           className="bg-light-blue flex items-center justify-between w-full max-w-sm rounded-3xl px-8 text-dark-blue"
         >
           SE FORMER
