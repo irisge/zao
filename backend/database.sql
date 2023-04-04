@@ -108,7 +108,7 @@ CREATE TABLE `user` (
   `street` varchar(100) NOT NULL,
   `city` varchar(100) NOT NULL,
   `zip` char(5) NOT NULL,
-  `telephone` char(14) NOT NULL,
+  `phone` char(14) NOT NULL,
   `birthdate_day` int NOT NULL,
   `birthdate_month` int NOT NULL,
   `birthdate_year` int NOT NULL,

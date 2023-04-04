@@ -1,10 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
+import SignIn from './SignIn';
 
 import grille from '../assets/view-grid.svg';
 import panier from '../assets/shopping-bag-wo-circle.png';
+import { useNavigate } from 'react-router-dom';
+import instance from '../services/serviceApi';
 
 function Card({ produits }) {
+  const [signInPopUpOn, setSignInPopUpOn] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    if (!localStorage.getItem('userId')) {
+      setSignInPopUpOn(true);
+    } else {
+      try {
+        // await instance.post('/api/panier', {
+        //   userId: localStorage.getItem('userId'),
+        // });
+
+        const res = await instance.get(`api/produits/${e.target.name}`);
+        const productId = res.data.id;
+        await instance.post(`api/panier/perso`, {
+          cartId: 1,
+          productId,
+          quantity: +1,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+      // ajout au panier
+    }
+  };
+
+  const closePopUp = () => {
+    setSignInPopUpOn(false);
+  };
+
   return (
     <div className="flex flex-col items-center justify-between w-full h-full -translate-y-10 lg:-translate-y-1 gap-8 lg:gap-y-8 lg:grid lg:grid-cols-3 py-8">
       {produits.map((p) => (
@@ -14,17 +49,18 @@ function Card({ produits }) {
         >
           <div className="flex w-full justify-between">
             <img src={grille} alt="quatre carrés formant une grille" />
-            <img src={panier} alt="panier de shopping" />
+            <button type="button" onClick={handleLogin}>
+              <img src={panier} alt="panier de shopping" name={p.id} />
+            </button>
           </div>
           <img src={p.picture} alt={p.title} />
           <p className="font-regular text-3xl text-dark-blue">{p.title}</p>
-          <p className="font-bold text-3xl text-dark-blue">
-            {p.price}
-            €
-
-          </p>
+          <p className="font-bold text-3xl text-dark-blue">{p.price}€</p>
         </div>
       ))}
+      {signInPopUpOn && (
+        <SignIn signInPopUpOn={signInPopUpOn} closePopUp={closePopUp} />
+      )}
     </div>
   );
 }
@@ -36,7 +72,7 @@ Card.propTypes = {
       picture: PropTypes.string,
       title: PropTypes.string.isRequired,
       price: PropTypes.number.isRequired,
-    // eslint-disable-next-line comma-dangle
+      // eslint-disable-next-line comma-dangle
     })
   ).isRequired,
 };

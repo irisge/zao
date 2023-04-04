@@ -14,7 +14,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="flex justify-between items-center">
+    <nav className="flex justify-between items-center z-30">
       <a
         href="/"
         className="text-dark-brown font-extrabold text-2xl lg:text-[40px] p-8"

@@ -20,7 +20,6 @@ function Catalogue({ nav }) {
         alt="pattern"
         className="w-full px-8 self-center absolute"
       />
-
       <h2 className="z-10 px-16 py-4 font-inter font-extrabold text-3xl text-black">
         {`Accueil / ${nav}`}
       </h2>
