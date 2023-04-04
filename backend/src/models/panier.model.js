@@ -22,4 +22,16 @@ const addOnePanier = async (panier) => {
   }
 };
 
-module.exports = { findOnePanier, addOnePanier };
+const findFullCart = async (id) => {
+  try {
+    const [cart] = await db.query(
+      'SELECT * FROM `cart` JOIN `product_cart` ON cart.id = product_cart.cart_id JOIN `product` ON product.id = product_cart.product_id WHERE user_id = ?',
+      [id]
+    );
+    return cart;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+module.exports = { findOnePanier, addOnePanier, findFullCart };

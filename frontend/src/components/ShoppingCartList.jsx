@@ -5,7 +5,6 @@ import SignIn from './SignIn';
 
 import grille from '../assets/view-grid.svg';
 import panier from '../assets/shopping-bag-wo-circle.png';
-import { useNavigate } from 'react-router-dom';
 import instance from '../services/serviceApi';
 import { useUserContext } from '../contexts/UserContext';
 
@@ -13,8 +12,6 @@ function Card({ produits }) {
   const [signInPopUpOn, setSignInPopUpOn] = useState(false);
 
   const { cartId, setCartId, userId } = useUserContext();
-
-  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     if (!userId) {

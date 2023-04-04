@@ -1,4 +1,8 @@
-const { findOnePanier, addOnePanier } = require('../models/panier.model');
+const {
+  findOnePanier,
+  addOnePanier,
+  findFullCart,
+} = require('../models/panier.model');
 
 const getOne = async (req, res) => {
   try {
@@ -23,4 +27,16 @@ const createOne = async (req, res) => {
   }
 };
 
-module.exports = { getOne, createOne };
+const getOneFullCart = async (req, res) => {
+  try {
+    const panierId = parseInt(req.params.id, 10);
+
+    if (isNaN(panierId)) throw new Error();
+    const [produit] = await findFullCart(panierId);
+    res.send(produit);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+module.exports = { getOne, createOne, getOneFullCart };
